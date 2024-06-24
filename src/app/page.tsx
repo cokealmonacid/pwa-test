@@ -1,12 +1,59 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 
 export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
+  const [inputs, setInputs] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
 
-      <div className="relative z-[-1] flex place-items-center before:absolute before:h-[300px] before:w-full before:-translate-x-1/2 before:rounded-full before:bg-gradient-radial before:from-white before:to-transparent before:blur-2xl before:content-[''] after:absolute after:-z-20 after:h-[180px] after:w-full after:translate-x-1/3 after:bg-gradient-conic after:from-sky-200 after:via-blue-200 after:blur-2xl after:content-[''] before:dark:bg-gradient-to-br before:dark:from-transparent before:dark:to-blue-700 before:dark:opacity-10 after:dark:from-sky-900 after:dark:via-[#0141ff] after:dark:opacity-40 sm:before:w-[480px] sm:after:w-[240px] before:lg:h-[360px]">
-        <h1 className="text-4xl font-bold">PWA TEST</h1>
-      </div>
+
+  const handleInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (error) {
+      setError("");
+    }
+  
+    setInputs({
+      ...inputs,
+      [e.target.name]: e.target.value
+    });
+  };
+
+
+  return (
+    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+        <form className="bg-white w-[320px] rounded-md p-4">
+          <div className="mb-5 flex items-center justify-center">
+            <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
+                <Image src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" width={30} height={30}/>
+                <span className="self-center text-2xl font-semibold whitespace-nowrap text-gray-900">Notifier</span>
+            </a>
+          </div>
+          <div className="mb-5">
+            <label htmlFor="email" className="block text-xs text-gray-600 uppercase">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              onChange={handleInputs}
+              className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm text-gray-800"
+              required
+            />
+          </div>
+          <div className="mb-5">
+            <label htmlFor="password" className="block text-xs text-gray-600 uppercase">Contraseña</label>
+            <input
+              id="password"
+              name="password"
+              type="password"
+              onChange={handleInputs}
+              autoComplete=""
+              className="mt-1 block w-full appearance-none rounded-md border border-gray-300 px-3 py-2 placeholder-gray-400 shadow-sm focus:border-black focus:outline-none focus:ring-black sm:text-sm text-gray-800"
+              required
+            />
+          </div>
+          <button type="submit" className="border-black w-full rounded-md p-2 bg-blue-700 hover:bg-blue-500 hover:font-semibold text-white"><p>Ingresar</p></button>
+        </form>
     </main>
   );
 }
