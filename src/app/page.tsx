@@ -3,10 +3,12 @@
 import { useState } from "react";
 import Image from "next/image";
 
+import { useSessionStore } from "./utils/store";
+import { login } from "./utils/services";
+
 export default function Home() {
   const [inputs, setInputs] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
-
 
   const handleInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (error) {
@@ -19,10 +21,17 @@ export default function Home() {
     });
   };
 
+  const handleSubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+    const { email, password } = inputs;
+    const res = await login(email, password);
+    console.log(res);
+  }
+
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
-        <form className="bg-white w-[320px] rounded-md p-4">
+        <form className="bg-white w-[320px] rounded-md p-4" onSubmit={handleSubmit}>
           <div className="mb-5 flex items-center justify-center">
             <a href="#" className="flex items-center space-x-3 rtl:space-x-reverse">
                 <Image src="https://flowbite.com/docs/images/logo.svg" className="h-8" alt="Flowbite Logo" width={30} height={30}/>
