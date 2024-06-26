@@ -13,11 +13,18 @@ export interface UserProps {
 }
 
 export interface SessionState {
-  accessToken: string | null;
+  access_token: string | null;
   user: UserProps | null;
 }
 
 export interface Actions {
   createSession: (session: SessionState) => void;
   removeSession: () => void;
+}
+
+export interface Notification {
+  id: string;
+  title: string;
+  body: string;
+  created_at: string;
 }
