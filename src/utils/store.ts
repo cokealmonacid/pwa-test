@@ -1,4 +1,6 @@
 import { create } from "zustand";
+import { persist, createJSONStorage } from 'zustand/middleware'
+
 import { Actions, SessionState } from "./interfaces";
 
 const INITIAL_STATE = {
@@ -6,7 +8,7 @@ const INITIAL_STATE = {
   user: null,
 };
 
-export const useSessionStore = create<SessionState & Actions>()((set) => ({
+export const useSessionStore = create<SessionState & Actions>()(persist((set) => ({
   ...INITIAL_STATE,
   createSession(session) {
     const { user, access_token } = session;
@@ -18,4 +20,7 @@ export const useSessionStore = create<SessionState & Actions>()((set) => ({
   removeSession() {
     set(() => ({...INITIAL_STATE}))
   }
+}), {
+  name: "pwa-storage",
+  storage: createJSONStorage(() => sessionStorage)
 }));

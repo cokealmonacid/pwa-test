@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useLayoutEffect } from "react";
 import { useRouter } from "next/navigation";
 
 import { useSessionStore } from "../utils/store";
@@ -15,13 +15,10 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  if (access_token) router.push("/dashboard");
-
   const handleInputs = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (error) {
       setError("");
     }
-  
     setInputs({
       ...inputs,
       [e.target.name]: e.target.value
@@ -35,13 +32,17 @@ export default function Home() {
     const res = await login(email, password);
     if (!res.access_token) {
       setError(res.message);
-    } else {
-      createSession(res);
-      router.push("/dashboard");
-    }
+      setLoading(false);
 
-    setLoading(false);
+      return null;
+    } 
+
+    createSession(res);
   }
+
+  useLayoutEffect(() => {
+    if (access_token) router.push("/dashboard");
+  }, [access_token, router]);
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-center p-24">
