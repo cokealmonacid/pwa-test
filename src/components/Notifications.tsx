@@ -6,7 +6,6 @@ interface NotificationsProps {
 }
 
 export const Notifications = ({ notifications }: NotificationsProps) => {
-  console.log("NOTIFICACIONES: ", notifications);
   return (
     <section className="w-[80%] md:w-[40%] mx-auto text-gray-800 my-8">
       <h1 className="font-bold text-2xl text-gray-600">Notificaciones</h1>

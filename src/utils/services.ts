@@ -31,3 +31,19 @@ export const showNotifications = async (access_token: string) => {
     throw new Error("Something went wrong");
   }
 }
+
+export const setToken = async (access_token: string, device_token: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_API_URL}/api/user/${device_token}`, {
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${access_token}`,
+      },
+      method: "PATCH",
+    }).then(async res => await res.json());
+
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+}

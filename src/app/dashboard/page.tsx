@@ -1,18 +1,22 @@
 "use client";
 
-import { useLayoutEffect } from 'react';
+import { useEffect, useLayoutEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useQuery } from 'react-query';
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
 
 import { Notifications } from '@/components/Notifications';
-import { showNotifications } from '@/utils/services';
+import { setToken, showNotifications } from '@/utils/services';
 import { useSessionStore } from '@/utils/store';
+import { requestPermission } from '@/utils/helpers';
 import { Navbar } from '@/components/Navbar';
 import Loading from '@/components/Loading';
+import app from "@/utils/initialize";
 
 const Dashboard = () => {
   const router = useRouter();
   const { access_token } = useSessionStore();
+  const messaging = getMessaging(app);
 
   const { isLoading, status, data} = useQuery({
     queryKey: ["GET_NOTIFICATIONS"],
@@ -21,6 +25,30 @@ const Dashboard = () => {
       return showNotifications(access_token ?? '');
     }
   });
+
+  useEffect(() => {
+    getToken(messaging, {
+        vapidKey: process.env.NEXT_PUBLIC_KEY,
+    })
+        .then((currentToken) => {
+            if (currentToken) {
+              setToken(access_token ?? '', currentToken);
+            } else {
+                console.log("No registration token available. Request permission to generate one.");
+                requestPermission();
+            }
+        })
+        .catch((err) => {
+            console.log("An error occurred while retrieving token. ", err);
+        });
+
+    onMessage(messaging, function ({ notification = { title: '', body: '' } }) {
+        console.log("NOTIFICACION", notification);
+        new Notification(notification.title ?? '', {
+        body: notification.body,
+      });
+    });
+  }, [access_token, messaging]);
 
   useLayoutEffect(() => {
     if (!access_token) router.push("/");

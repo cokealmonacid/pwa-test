@@ -6,3 +6,12 @@ export const dateFormatter = (date: string) => {
 
   return `${day}/${month}/${year}`;
 }
+
+export const requestPermission = () => {
+  console.log("Requesting permission...");
+  Notification.requestPermission().then((permission) => {
+    if (permission === "granted") {
+        console.log("Notification permission granted.");
+    }
+  });
+}
