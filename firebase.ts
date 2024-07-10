@@ -1,6 +1,6 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp } from 'firebase/app';
 
-export const firebaseConfig = {
+const firebaseConfig = {
   apiKey: "AIzaSyChqoqqyohlY6Gg1FNGF4NV1kvyhKIqer4",
   authDomain: "notifier-f1f22.firebaseapp.com",
   projectId: "notifier-f1f22",
