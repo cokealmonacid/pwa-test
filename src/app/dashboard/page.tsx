@@ -40,6 +40,10 @@ const Dashboard = () => {
           <Loading />
         ) : (
           <>
+            <div className="w-[80%] md:w-[40%] mx-auto text-gray-800 my-2">
+              <p><span className="font-semibold">Permiso de notificaciones:</span> {Notification.permission}</p>
+              <p><span className="font-semibold">Current token:</span> {fcmToken ?? "No hay token"}</p>
+            </div>
             <FcmTokenComp />
             <Notifications notifications={data && data.notifications} />
           </>

@@ -15,7 +15,6 @@ const useFcmToken = () => {
 
           const permission = await Notification.requestPermission();
           setNotificationPermissionStatus(permission);
-          alert(permission);
           if (permission === 'granted') {
             const currentToken = await getToken(messaging, {
               vapidKey: process.env.NEXT_PUBLIC_FIREBASE_FCM_VAPID_KEY
