@@ -6,7 +6,7 @@ interface NotificationsProps {
 }
 
 export const Notifications = ({ notifications }: NotificationsProps) => {
-  const arrayNot = notifications && Object.entries(notifications).length ? Object.values(notifications) : [];
+  const arrayNot = notifications && Object.entries(notifications).length ? Object.values(notifications).toReversed() : [];
 
   return (
     <section className="w-[80%] md:w-[40%] mx-auto text-gray-800 my-8 h-[80%] overflow-y-scroll">

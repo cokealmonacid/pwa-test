@@ -21,6 +21,7 @@ const useFcmToken = () => {
               vapidKey: process.env.NEXT_PUBLIC_FIREBASE_FCM_VAPID_KEY
             });
             if (currentToken) {
+              alert(currentToken);
               setToken(currentToken);
             } else {
               console.log('No registration token available. Request permission to generate one.');
